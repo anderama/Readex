@@ -21,8 +21,11 @@ import { accountRoutes } from './modules/account/account.routes.js'
 export async function buildApp() {
   const app = Fastify({ logger: { level: 'warn' }, bodyLimit: 1_000_000 })
 
+  // CORS: origens da variável WEB_ORIGIN + endereços deste projeto na Vercel (produção e prévias)
+  const allowed = env.WEB_ORIGIN.split(',').map((o) => o.trim())
+  const vercel = /^https:\/\/readex(-[a-z0-9-]+)?\.vercel\.app$/
   await app.register(cors, {
-    origin: env.WEB_ORIGIN.split(',').map((o) => o.trim()),
+    origin: (origin, cb) => cb(null, !origin || allowed.includes(origin) || vercel.test(origin)),
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   })
   await app.register(rateLimit, { global: false })
