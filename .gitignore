@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+.pgdata
+*.log
+.DS_Store
+.vercel
+apps/api/dist
+apps/web/dist

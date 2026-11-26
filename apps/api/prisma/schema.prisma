@@ -1,0 +1,236 @@
+// Modelo de dados do Readex (PostgreSQL via Prisma)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ShelfStatus {
+  QUERO_LER
+  LENDO
+  CONCLUIDO
+}
+
+enum CodePurpose {
+  VERIFY_EMAIL
+  RESET_PASSWORD
+}
+
+enum NoteKind {
+  CITACAO
+  NOTA
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String
+  username          String    @unique
+  email             String    @unique
+  passwordHash      String
+  bio               String    @default("")
+  avatarUrl         String?
+  emailVerified     Boolean   @default(false)
+  onboarded         Boolean   @default(false)
+  favoriteGenres    String[]  @default([])
+  dailyGoalMinutes  Int       @default(30)
+  notificationPrefs Json?
+  termsAcceptedAt   DateTime?
+  createdAt         DateTime  @default(now())
+
+  codes         VerificationCode[]
+  shelf         ShelfItem[]
+  logs          ReadingLog[]
+  reviews       Review[]
+  goals         Goal[]
+  notes         Note[]
+  posts         Post[]
+  comments      Comment[]
+  postLikes     PostLike[]
+  reviewLikes   ReviewLike[]
+  following     Follow[]       @relation("following")
+  followers     Follow[]       @relation("followers")
+  notifications Notification[] @relation("recipient")
+  actedNotifs   Notification[] @relation("actor")
+}
+
+model VerificationCode {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeHash  String
+  purpose   CodePurpose
+  attempts  Int         @default(0)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime    @default(now())
+}
+
+model Book {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  author       String
+  genres       String[]
+  publisher    String
+  year         Int
+  pages        Int
+  synopsis     String
+  coverUrl     String?
+  coverTone    String   @default("ambar")
+  isbn         String?
+  avgRating    Float    @default(0)
+  ratingsCount Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  shelfItems ShelfItem[]
+  logs       ReadingLog[]
+  reviews    Review[]
+  notes      Note[]
+  posts      Post[]
+}
+
+model ShelfItem {
+  id          String      @id @default(cuid())
+  userId      String
+  bookId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book        Book        @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  status      ShelfStatus @default(QUERO_LER)
+  currentPage Int         @default(0)
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Um livro só pode estar em um status por vez na estante
+  @@unique([userId, bookId])
+}
+
+model ReadingLog {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  fromPage  Int
+  toPage    Int
+  minutes   Int      @default(0)
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  rating    Int
+  text      String?
+  spoiler   Boolean  @default(false)
+  tags      String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  likes ReviewLike[]
+
+  @@unique([userId, bookId])
+}
+
+model Goal {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  year   Int
+  month  Int
+  target Int
+
+  @@unique([userId, year, month])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  kind      NoteKind @default(NOTA)
+  page      Int?
+  text      String
+  comment   String?
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  userId      String
+  bookId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book        Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  text        String
+  spoilerPage Int?
+  hashtags    String[] @default([])
+  createdAt   DateTime @default(now())
+
+  comments Comment[]
+  likes    PostLike[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text      String
+  createdAt DateTime @default(now())
+}
+
+model PostLike {
+  userId String
+  postId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+}
+
+model ReviewLike {
+  userId   String
+  reviewId String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@id([userId, reviewId])
+}
+
+model Follow {
+  followerId  String
+  followingId String
+  follower    User     @relation("following", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("followers", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followingId])
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  actorId   String?
+  user      User      @relation("recipient", fields: [userId], references: [id], onDelete: Cascade)
+  actor     User?     @relation("actor", fields: [actorId], references: [id], onDelete: Cascade)
+  category  String
+  text      String
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, createdAt])
+}

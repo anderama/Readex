@@ -1,0 +1,26 @@
+{
+  "name": "readex",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Readex: gestão de leituras pessoais (monorepo Vue 3 + Fastify)",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "setup": "npm install && npm run db:setup -w apps/api",
+    "dev": "concurrently -k -n db,api,web -c gray,blue,magenta \"npm run db -w apps/api\" \"npm run dev -w apps/api\" \"npm run dev -w apps/web\"",
+    "build": "npm run build -w apps/api && npm run build -w apps/web",
+    "demo:reset": "npm run demo:reset -w apps/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "allowScripts": {
+    "@embedded-postgres/windows-x64@17.12.0-beta.19": true,
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "esbuild@0.28.2": true,
+    "prisma@6.19.3": true
+  }
+}
