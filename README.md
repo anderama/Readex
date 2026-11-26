@@ -46,6 +46,15 @@ Portas: front 5173, API 3333 (`/api`), banco 5433. Os dados do banco local ficam
 
 ## Deploy
 
+**No ar:**
+
+- Site: https://readex-phi.vercel.app
+- API: https://readex-api.onrender.com/api (verificação: `/health`)
+
+Cada push na branch `main` publica o site de novo na Vercel automaticamente. No Render, o serviço foi criado pela URL pública do repositório: depois de mudar a API, use **Manual Deploy › Deploy latest commit** no painel do `readex-api`.
+
+Como foi configurado:
+
 1. **Banco + API no Render:** New › Blueprint › este repositório. O `render.yaml` cria o PostgreSQL e o serviço da API. Na primeira subida, as tabelas são criadas (`prisma db push`) e os dados de exemplo são carregados só se o banco estiver vazio. Preencha `WEB_ORIGIN` com a URL da Vercel.
 2. **Front na Vercel:** importe o repositório com *Root Directory* `apps/web` e defina `VITE_API_URL=https://<sua-api>.onrender.com/api`.
 
