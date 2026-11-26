@@ -1,0 +1,68 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1920" height="640" viewBox="0 0 1920 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Fundo &#194;&#183; Gradiente" filter="url(#filter0_n_0_192)">
+<g clip-path="url(#clip0_0_192)">
+<rect width="1920" height="640" fill="#F3F4F5"/>
+<g id="luz" filter="url(#filter1_f_0_192)">
+<ellipse cx="619.333" cy="64" rx="295.333" ry="256" fill="#F5EEB0"/>
+</g>
+<g id="luz_2" opacity="0.55" filter="url(#filter2_f_0_192)">
+<ellipse cx="1190.4" cy="224" rx="768" ry="224" fill="#FF9408"/>
+</g>
+<g id="luz_3" opacity="0.35" filter="url(#filter3_f_0_192)">
+<ellipse cx="601.317" cy="751.449" rx="864" ry="112" transform="rotate(25 601.317 751.449)" fill="#CA3F16"/>
+</g>
+<g id="luz_4" opacity="0.18" filter="url(#filter4_f_0_192)">
+<ellipse cx="1632" cy="480" rx="432" ry="160" fill="#95122C"/>
+</g>
+<g id="luz_5" filter="url(#filter5_f_0_192)">
+<ellipse cx="1728" cy="32" rx="480" ry="192" fill="#F5C6A5"/>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_n_0_192" x="0" y="0" width="1920" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="1.6666666269302368 1.6666666269302368" stitchTiles="stitch" numOctaves="3" result="noise" seed="0" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(0, 0, 0, 0.05)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_0_192">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+<filter id="filter1_f_0_192" x="222" y="-294" width="794.667" height="716" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="51" result="effect1_foregroundBlur_0_192"/>
+</filter>
+<filter id="filter2_f_0_192" x="320.4" y="-102" width="1740" height="652" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="51" result="effect1_foregroundBlur_0_192"/>
+</filter>
+<filter id="filter3_f_0_192" x="-285.188" y="270.364" width="1773.01" height="962.17" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="51" result="effect1_foregroundBlur_0_192"/>
+</filter>
+<filter id="filter4_f_0_192" x="1098" y="218" width="1068" height="524" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="51" result="effect1_foregroundBlur_0_192"/>
+</filter>
+<filter id="filter5_f_0_192" x="1146" y="-262" width="1164" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="51" result="effect1_foregroundBlur_0_192"/>
+</filter>
+<clipPath id="clip0_0_192">
+<rect width="1920" height="640" fill="white"/>
+</clipPath>
+</defs>
+</svg>

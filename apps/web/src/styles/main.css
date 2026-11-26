@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+/* Tokens do Figma (coleção "Readex", paleta MP096). Ver DESIGN.md e handoff-readex.md */
+@theme {
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+
+  --color-smoky: #100c08;
+  --color-fire: #ff9408;
+  --color-fire-hover: #f08700;
+  --color-fire-light: #ffe9cc;
+  --color-sauce: #ca3f16;
+  --color-burgundy: #95122c;
+  --color-chefs: #f3f4f5;
+  --color-cloud: #dbe0e1;
+  --color-body: #3f3a36;
+  --color-secondary: #67625d;
+  --color-disabled: #b9bec0;
+  --color-border-strong: #8c8782;
+  --color-success: #26a857;
+  --color-success-soft: #e4f5ea;
+  --color-negative-soft: #f5e4e7;
+  --color-warning-soft: #fff1de;
+  --color-info: #2a6edc;
+  --color-info-soft: #e5eefb;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --text-display: 64px;
+  --text-display--line-height: 1.15;
+  --text-display--letter-spacing: -0.02em;
+  --text-title-48: 48px;
+  --text-title-48--line-height: 1.15;
+  --text-title-48--letter-spacing: -0.015em;
+  --text-title-40: 40px;
+  --text-title-40--line-height: 1.15;
+  --text-title-40--letter-spacing: -0.01em;
+  --text-subtitle: 24px;
+  --text-subtitle--line-height: 1.35;
+  --text-subtitle--letter-spacing: -0.005em;
+  --text-body-18: 18px;
+  --text-body-18--line-height: 1.5;
+  --text-body-16: 16px;
+  --text-body-16--line-height: 1.5;
+  --text-body-14: 14px;
+  --text-body-14--line-height: 1.5;
+  --text-body-12: 12px;
+  --text-body-12--line-height: 1.5;
+
+  --shadow-cover: 0 1px 2px rgb(16 12 8 / 0.1), 0 12px 28px -6px rgb(16 12 8 / 0.16);
+  --shadow-cover-sm: 0 1px 2px rgb(16 12 8 / 0.1);
+  --shadow-menu: 0 1px 2px rgb(16 12 8 / 0.06), 0 16px 40px rgb(16 12 8 / 0.14);
+  --shadow-modal: 0 1px 2px rgb(16 12 8 / 0.06), 0 16px 48px rgb(16 12 8 / 0.16);
+
+  --breakpoint-wide: 1440px;
+  --breakpoint-full: 1680px;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-white font-sans text-body-16 text-smoky;
+  }
+  /* Foco visível: 2px Sauce Piquante com 2px de respiro (handoff, seção 6) */
+  :focus-visible {
+    outline: 2px solid var(--color-sauce);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-fire-light);
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer utilities {
+  .transition-ui {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 120ms;
+    transition-timing-function: ease-out;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Esqueleto de carregamento */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-chefs) 25%, #e9ebec 37%, var(--color-chefs) 63%);
+  background-size: 400% 100%;
+  animation: skeleton 1.4s ease infinite;
+}
+@keyframes skeleton {
+  from { background-position: 100% 50%; }
+  to { background-position: 0 50%; }
+}
+
+/* Transições de modal, painel e toast */
+.fade-enter-active, .fade-leave-active { transition: opacity 200ms ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+.modal-enter-active, .modal-leave-active { transition: opacity 200ms ease, transform 200ms ease; }
+.modal-enter-from, .modal-leave-to { opacity: 0; transform: translateY(8px); }
+.sheet-enter-active, .sheet-leave-active { transition: transform 220ms ease; }
+.sheet-enter-from, .sheet-leave-to { transform: translateY(100%); }
+.panel-enter-active, .panel-leave-active { transition: opacity 160ms ease, transform 160ms ease; }
+.panel-enter-from, .panel-leave-to { opacity: 0; transform: translateY(-4px); }
+.toast-enter-active, .toast-leave-active { transition: opacity 200ms ease, transform 200ms ease; }
+.toast-enter-from, .toast-leave-to { opacity: 0; transform: translateY(8px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
